@@ -1,90 +1,93 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Generics.Robots
 {
-    public abstract class RobotAI
+    // RobotAI - parent
+    // childs: ShooterAI, BuilderAI
+    // Device - parent
+    // childs: mover, shootermover
+    public interface IRobotAI<out IMoveCommand>
     {
-        public abstract object GetCommand();
+        IMoveCommand GetCommand();
     }
 
-    public class ShooterAI : RobotAI
+    public class ShooterAI : IRobotAI<ShooterCommand>
     {
-        int counter = 1;
-
-        public override object GetCommand()
+        private int _counter = 1;
+        
+        public ShooterCommand GetCommand()
         {
-            return ShooterCommand.ForCounter(counter++);
+           return ShooterCommand.ForCounter(_counter++); 
         }
     }
 
-    public class BuilderAI : RobotAI
+    public class BuilderAI : IRobotAI<BuilderCommand>
     {
-        int counter = 1;
+        private int _counter = 1;
 
-        public override object GetCommand()
+        public BuilderCommand GetCommand()
         {
-            return BuilderCommand.ForCounter(counter++);
+            return BuilderCommand.ForCounter(_counter++);
         }
     }
 
-    public abstract class Device
+    public interface IDevice<in IMoveCommand>
     {
-        public abstract string ExecuteCommand(object command);
+        string ExecuteCommand(IMoveCommand command);
     }
 
-    public class Mover : Device
+    public class Mover : IDevice<IMoveCommand>
     {
-        public override string ExecuteCommand(object _command)
+        // В аргументы лучше передавать _command или command? А то непонятно получается:
+        // Если есть свойство private - пишем _property, Не хочется то же самое здесь
+        // использовать
+        public string ExecuteCommand(IMoveCommand _command)
         {
-            var command = _command as IMoveCommand;
-            if (command == null)
-                throw new ArgumentException();
+            // Убрал приведение к IMoveCommand, сделал checkvarfornull
+            var command = _command ?? throw new ArgumentNullException(nameof(_command));
             return $"MOV {command.Destination.X}, {command.Destination.Y}";
         }
     }
 
-    public class ShooterMover : Device
+    public class ShooterMover : IDevice<IMoveCommand>
     {
-        public override string ExecuteCommand(object _command)
+        public string ExecuteCommand(IMoveCommand _command)
         {
-            var command = _command as IShooterMoveCommand;
-            if (command == null)
-                throw new ArgumentException();
+            var command = _command as IShooterMoveCommand ?? throw new ArgumentNullException(nameof(_command));
             var hide = command.ShouldHide ? "YES" : "NO";
             return $"MOV {command.Destination.X}, {command.Destination.Y}, USE COVER {hide}";
         }
     }
 
-    public class Robot
+    public class Robot<T> where T: IMoveCommand
     {
-        private readonly RobotAI ai;
-        private readonly Device device;
+        private readonly IRobotAI<T> _ai;
+        private readonly IDevice<T> _device;
 
-        public Robot(RobotAI ai, Device executor)
+        public Robot(IRobotAI<T> ai, IDevice<T> executor)
         {
-            this.ai = ai;
-            this.device = executor;
+            this._ai = ai;
+            this._device = executor;
         }
 
         public IEnumerable<string> Start(int steps)
         {
-            for (int i = 0; i < steps; i++)
+            for (var i = 0; i < steps; i++)
             {
-                var command = ai.GetCommand();
+                var command = _ai.GetCommand();
                 if (command == null)
                     break;
-                yield return device.ExecuteCommand(command);
+                yield return _device.ExecuteCommand(command);
             }
         }
+    }
 
-        public static Robot Create<TCommand>(RobotAI ai, Device executor)
+    public static class Robot
+    {
+        public static Robot<T> Create<T>(IRobotAI<T> ai, IDevice<T> executor) where T : IMoveCommand
         {
-            return new Robot(ai, executor);
+            return new Robot<T>(ai, executor);
         }
     }
 }
