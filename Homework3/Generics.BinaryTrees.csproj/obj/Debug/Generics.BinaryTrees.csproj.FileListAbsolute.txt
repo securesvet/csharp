@@ -1,0 +1,3 @@
+D:\csharp_ulearn\Homework3\Generics.BinaryTrees.csproj\obj\Debug\Generics.BinaryTrees.csproj.AssemblyReference.cache
+D:\csharp_ulearn\Homework3\Generics.BinaryTrees.csproj\obj\Debug\Generics.BinaryTrees.csproj.SuggestedBindingRedirects.cache
+D:\csharp_ulearn\Homework3\Generics.BinaryTrees.csproj\obj\Debug\Generics.BinaryTrees.csproj.CoreCompileInputs.cache
