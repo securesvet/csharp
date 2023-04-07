@@ -1,0 +1,10 @@
+/home/svet/uni/csharp/HW-6/differentiate/bin/Debug/Reflection.Differentiation.exe.config
+/home/svet/uni/csharp/HW-6/differentiate/bin/Debug/Reflection.Differentiation.exe
+/home/svet/uni/csharp/HW-6/differentiate/bin/Debug/Reflection.Differentiation.pdb
+/home/svet/uni/csharp/HW-6/differentiate/bin/Debug/nunit.framework.dll
+/home/svet/uni/csharp/HW-6/differentiate/bin/Debug/nunitlite.dll
+/home/svet/uni/csharp/HW-6/differentiate/obj/Debug/Reflection.Differentiation.csproj.AssemblyReference.cache
+/home/svet/uni/csharp/HW-6/differentiate/obj/Debug/Reflection.Differentiation.csproj.CoreCompileInputs.cache
+/home/svet/uni/csharp/HW-6/differentiate/obj/Debug/Reflection.Differentiation.csproj.CopyComplete
+/home/svet/uni/csharp/HW-6/differentiate/obj/Debug/Reflection.Differentiation.exe
+/home/svet/uni/csharp/HW-6/differentiate/obj/Debug/Reflection.Differentiation.pdb
