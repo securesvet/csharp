@@ -1,0 +1,2 @@
+/home/svet/uni/csharp/Photoshop/obj/x86/Debug/Photoshop.csproj.AssemblyReference.cache
+/home/svet/uni/csharp/Photoshop/obj/x86/Debug/Photoshop.csproj.CoreCompileInputs.cache
